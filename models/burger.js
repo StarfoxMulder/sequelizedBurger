@@ -1,3 +1,30 @@
+'use strict';
+module.exports = function(sequelize, DataTypes) {
+  var burger = sequelize.define('burger', {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+    },
+    burger_name: DataTypes.STRING,
+    devoured: {
+      type: DataTypes.BOOLEAN, 
+      defaultValue: false
+    },
+    burger_date: DataTypes.TIMESTAMP
+  }, {
+    classMethods: {
+      associate: function(models) {
+        // associations can be defined here
+      }
+    }
+  });
+  return burger;
+};
+
+
+////////PREVIOUS VERSION\\\\\\\\\\\\\\\\
+/*
 var orm = require('../config/orm.js');
 var tableInput = "burgers";
 
@@ -29,3 +56,4 @@ var burger = {
 };
 
 module.exports = burger;
+*/

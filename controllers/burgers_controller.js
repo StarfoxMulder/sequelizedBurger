@@ -7,32 +7,51 @@ router.get('/', function (req, res) {
 });
 
 router.get('/burgers', function (req, res) {
-
-  burger.selectAll(function (data) {
-    var hbsObject = { burgers: data };
-    console.log(hbsObject);
-    res.render('index', hbsObject);
+  //sequelize update
+  burger.findAll()
+  .then(function(res) {
+    res.render('index', {burgers : res});
   });
+
 });
 
 router.post('/burgers/insertOne', function (req, res) {
-  burger.insertOne(['burger_name', 'devoured'], [req.body.burger_name, false], function () {
+  //sequelize update
+  burger.create({
+    burger_name: req.body.burger_name,
+    devoured: false
+  })
+  .then(function() {
     res.redirect('/burgers');
   });
+
 });
 
 router.put('/burgers/updateOne/:id', function (req, res) {
+  //sequelize update
   var condition = 'id = ' + req.params.id;
 
-  burger.updateOne({devoured: req.body.devoured}, condition, function () {
+  burger.updateOne({
+    devoured: true
+  },
+  {
+    where: {
+      id:condition
+    }
+  }).then(function () {
     res.redirect('/burgers');
   });
 });
 
 router.delete('/burgers/deleteOne/:id', function (req, res) {
+    //sequelize update
   var condition = 'id = ' + req.params.id;
 
-  burger.deleteOne(condition, function() {
+  burger.deleteOne({
+    where: {
+      id:condition
+    }
+  }).then(function () {
     res.redirect('/burgers');
   });
 });
